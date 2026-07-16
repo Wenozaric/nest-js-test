@@ -10,3 +10,27 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model User{
+  id String @id @default(ulid())
+  email String @unique
+
+  comments Comment[]
+
+  likedActors Actor[]
+}
+
+model Comment{
+  commentId Int @id @default(autoincrement())
+  authorId String
+
+  author User @relation(fields: [authorId], references: [id])
+}
+
+model Actor{
+  id String @id @default(uuid())
+  name String
+  surname String
+
+  likedBy User[]
+}
